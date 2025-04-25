@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>I Knew It! ❤️</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #ffdddd, #ffd1dc);
+            height: 100vh;
+            margin: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .floating-hearts {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        .floating-heart {
+            position: absolute;
+            animation: floatHeart 10s ease-in infinite;
+            opacity: 0.7;
+            font-size: 2rem;
+            color: #ff6b97;
+        }
+
+        @keyframes floatHeart {
+            0% {
+                transform: translateY(100vh) rotate(0deg);
+                opacity: 0.7;
+            }
+            100% {
+                transform: translateY(-100px) rotate(360deg);
+                opacity: 0;
+            }
+        }
+
+        .container {
+            background-color: rgba(255, 255, 255, 0.9);
+            border-radius: 20px;
+            padding: 40px;
+            box-shadow: 0 10px 30px rgba(255, 105, 180, 0.3);
+            text-align: center;
+            max-width: 600px;
+            width: 90%;
+            z-index: 10;
+            position: relative;
+            border: 3px solid rgba(255, 182, 193, 0.8);
+        }
+
+        h1 {
+            color: #ff4d79;
+            margin-bottom: 30px;
+            font-size: 2.5rem;
+            text-shadow: 2px 2px 4px rgba(255, 105, 180, 0.3);
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); }
+        }
+
+        .gif-container {
+            margin: 20px 0;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 5px 20px rgba(255, 105, 180, 0.5);
+            position: relative;
+            height: 250px;
+            background-color: #ffecf0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .gif-placeholder {
+            width: 100%;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 4rem;
+            color: #ff6b97;
+            animation: heartbeat 1.5s infinite;
+        }
+
+        @keyframes heartbeat {
+            0% { transform: scale(1); }
+            25% { transform: scale(1.1); }
+            50% { transform: scale(1); }
+            75% { transform: scale(1.1); }
+            100% { transform: scale(1); }
+        }
+
+        p {
+            font-size: 1.3rem;
+            color: #ff6b97;
+            margin: 25px 0;
+            line-height: 1.6;
+        }
+
+        .gold-text {
+            color: #d4af37;
+            font-weight: bold;
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.2);
+        }
+
+        .highlight {
+            background: linear-gradient(to right, rgba(255, 223, 186, 0.5), rgba(255, 179, 186, 0.5));
+            padding: 15px;
+            border-radius: 10px;
+            margin: 20px 0;
+            animation: glow 2s infinite alternate;
+        }
+
+        @keyframes glow {
+            from { box-shadow: 0 0 10px rgba(255, 105, 180, 0.5); }
+            to { box-shadow: 0 0 20px rgba(255, 105, 180, 0.9); }
+        }
+
+        .btn {
+            background: linear-gradient(to bottom, #ff97b7, #ff5c8a);
+            color: white;
+            border: none;
+            padding: 15px 40px;
+            font-size: 1.2rem;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 5px 15px rgba(255, 105, 180, 0.4);
+            margin-top: 20px;
+        }
+
+        .btn:hover {
+            transform: translateY(-3px) scale(1.05);
+            box-shadow: 0 7px 20px rgba(255, 105, 180, 0.6);
+            background: linear-gradient(to bottom, #ffacc5, #ff7ea6);
+        }
+
+        .sparkle {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        .sparkle span {
+            position: absolute;
+            background: radial-gradient(circle, #fff 10%, transparent 70%);
+            border-radius: 50%;
+            animation: sparkleAnim 4s linear infinite;
+            opacity: 0;
+        }
+
+        @keyframes sparkleAnim {
+            0% { transform: scale(0); opacity: 0; }
+            20% { opacity: 0.7; }
+            80% { opacity: 0.7; }
+            100% { transform: scale(1); opacity: 0; }
+        }
+    </style>
+</head>
+<body>
+    <div class="floating-hearts" id="floating-hearts"></div>
+    <div class="sparkle" id="sparkle"></div>
+    
+    <div class="container">
+        <h1>I Knew You'd Say Yes! ❤️</h1>
+        
+        <div class="gif-container">
+            <div class="gif-placeholder">
+                ❤️💕❤️
+            </div>
+        </div>
+        
+        <div class="highlight">
+            <p>Thank you for being my <span class="gold-text">everything</span>. Every day with you feels like a dream come true.</p>
+        </div>
+        
+        <p>Your love means the world to me. I'm so lucky to have you in my life!</p>
+        
+        <button class="btn" id="love-btn">I Love You Too!</button>
+    </div>
+
+    <script>
+        // Create floating hearts
+        function createFloatingHearts() {
+            const heartsContainer = document.getElementById('floating-hearts');
+            const heartSymbols = ['❤️', '💕', '💖', '💗', '💓'];
+            
+            for (let i = 0; i < 40; i++) {
+                const heart = document.createElement('div');
+                heart.classList.add('floating-heart');
+                heart.innerHTML = heartSymbols[Math.floor(Math.random() * heartSymbols.length)];
+                heart.style.left = Math.random() * 100 + 'vw';
+                heart.style.animationDuration = 5 + Math.random() * 10 + 's';
+                heart.style.animationDelay = Math.random() * 5 + 's';
+                heart.style.opacity = Math.random() * 0.7;
+                heart.style.fontSize = Math.random() * 2 + 1 + 'rem';
+                heartsContainer.appendChild(heart);
+            }
+        }
+        
+        // Create sparkles
+        function createSparkles() {
+            const sparkleContainer = document.getElementById('sparkle');
+            
+            for (let i = 0; i < 30; i++) {
+                const sparkle = document.createElement('span');
+                sparkle.style.width = Math.random() * 10 + 5 + 'px';
+                sparkle.style.height = sparkle.style.width;
+                sparkle.style.left = Math.random() * 100 + 'vw';
+                sparkle.style.top = Math.random() * 100 + 'vh';
+                sparkle.style.animationDuration = 2 + Math.random() * 3 + 's';
+                sparkle.style.animationDelay = Math.random() * 2 + 's';
+                sparkleContainer.appendChild(sparkle);
+            }
+        }
+        
+        // Add button interaction
+        function setupButton() {
+            const loveBtn = document.getElementById('love-btn');
+            loveBtn.addEventListener('click', function() {
+                // Create heart explosion
+                for (let i = 0; i < 20; i++) {
+                    setTimeout(() => {
+                        const explosionHeart = document.createElement('div');
+                        explosionHeart.classList.add('floating-heart');
+                        explosionHeart.innerHTML = '❤️';
+                        explosionHeart.style.left = '50%';
+                        explosionHeart.style.top = '50%';
+                        explosionHeart.style.animationDuration = 2 + Math.random() * 3 + 's';
+                        explosionHeart.style.transform = `translate(-50%, -50%) rotate(${Math.random() * 360}deg)`;
+                        document.getElementById('floating-hearts').appendChild(explosionHeart);
+                    }, i * 100);
+                }
+        
+                // Change button text
+                this.textContent = "Forever & Always ❤️";
+                this.style.background = "linear-gradient(to bottom, #ff5c8a, #ff1a53)";
+        
+                // Redirect to the next page after a short delay
+                setTimeout(() => {
+                    window.location.href = 'wish.html'; // Replace 'next-page.html' with your desired URL
+                }, 2000); // Adjust delay as needed
+            });
+        }
+
+        // Initialize the page
+        function init() {
+            createFloatingHearts();
+            createSparkles();
+            setupButton();
+        }
+
+        // Start when page loads
+        window.addEventListener('load', init);
+    </script>
+</body>
+</html>
