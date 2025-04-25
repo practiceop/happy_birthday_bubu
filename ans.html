@@ -5,31 +5,41 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>I Knew It! ❤️</title>
     <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             background: linear-gradient(135deg, #ffdddd, #ffd1dc);
-            height: 100vh;
+            min-height: 100vh;
+            width: 100%;
             margin: 0;
             display: flex;
             align-items: center;
             justify-content: center;
-            overflow: hidden;
             position: relative;
+            padding: 20px;
         }
 
         .floating-hearts {
-            position: absolute;
+            position: fixed;
             width: 100%;
             height: 100%;
+            top: 0;
+            left: 0;
             pointer-events: none;
             z-index: 0;
+            overflow: hidden;
         }
 
         .floating-heart {
             position: absolute;
             animation: floatHeart 10s ease-in infinite;
             opacity: 0.7;
-            font-size: 2rem;
+            font-size: clamp(1rem, 4vw, 2rem);
             color: #ff6b97;
         }
 
@@ -46,23 +56,25 @@
 
         .container {
             background-color: rgba(255, 255, 255, 0.9);
-            border-radius: 20px;
-            padding: 40px;
+            border-radius: clamp(12px, 5vw, 20px);
+            padding: clamp(20px, 5vw, 40px);
             box-shadow: 0 10px 30px rgba(255, 105, 180, 0.3);
             text-align: center;
             max-width: 600px;
-            width: 90%;
+            width: 100%;
             z-index: 10;
             position: relative;
             border: 3px solid rgba(255, 182, 193, 0.8);
+            margin: 20px auto;
         }
 
         h1 {
             color: #ff4d79;
-            margin-bottom: 30px;
-            font-size: 2.5rem;
+            margin-bottom: clamp(15px, 4vw, 30px);
+            font-size: clamp(1.5rem, 5vw, 2.5rem);
             text-shadow: 2px 2px 4px rgba(255, 105, 180, 0.3);
             animation: pulse 2s infinite;
+            word-wrap: break-word;
         }
 
         @keyframes pulse {
@@ -72,12 +84,12 @@
         }
 
         .gif-container {
-            margin: 20px 0;
+            margin: clamp(10px, 3vw, 20px) 0;
             border-radius: 15px;
             overflow: hidden;
             box-shadow: 0 5px 20px rgba(255, 105, 180, 0.5);
             position: relative;
-            height: 250px;
+            height: clamp(150px, 30vw, 250px);
             background-color: #ffecf0;
             display: flex;
             align-items: center;
@@ -90,7 +102,7 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 4rem;
+            font-size: clamp(2rem, 8vw, 4rem);
             color: #ff6b97;
             animation: heartbeat 1.5s infinite;
         }
@@ -104,10 +116,11 @@
         }
 
         p {
-            font-size: 1.3rem;
+            font-size: clamp(1rem, 3vw, 1.3rem);
             color: #ff6b97;
-            margin: 25px 0;
+            margin: clamp(15px, 4vw, 25px) 0;
             line-height: 1.6;
+            word-wrap: break-word;
         }
 
         .gold-text {
@@ -118,9 +131,9 @@
 
         .highlight {
             background: linear-gradient(to right, rgba(255, 223, 186, 0.5), rgba(255, 179, 186, 0.5));
-            padding: 15px;
+            padding: clamp(10px, 3vw, 15px);
             border-radius: 10px;
-            margin: 20px 0;
+            margin: clamp(15px, 4vw, 20px) 0;
             animation: glow 2s infinite alternate;
         }
 
@@ -133,27 +146,34 @@
             background: linear-gradient(to bottom, #ff97b7, #ff5c8a);
             color: white;
             border: none;
-            padding: 15px 40px;
-            font-size: 1.2rem;
+            padding: clamp(10px, 3vw, 15px) clamp(20px, 6vw, 40px);
+            font-size: clamp(1rem, 3vw, 1.2rem);
             border-radius: 50px;
             cursor: pointer;
             transition: all 0.3s ease;
             box-shadow: 0 5px 15px rgba(255, 105, 180, 0.4);
-            margin-top: 20px;
+            margin-top: clamp(15px, 4vw, 20px);
+            display: inline-block;
+            max-width: 100%;
+            word-wrap: break-word;
+            -webkit-tap-highlight-color: transparent;
         }
 
-        .btn:hover {
+        .btn:hover, .btn:active {
             transform: translateY(-3px) scale(1.05);
             box-shadow: 0 7px 20px rgba(255, 105, 180, 0.6);
             background: linear-gradient(to bottom, #ffacc5, #ff7ea6);
         }
 
         .sparkle {
-            position: absolute;
+            position: fixed;
             width: 100%;
             height: 100%;
+            top: 0;
+            left: 0;
             pointer-events: none;
             z-index: 0;
+            overflow: hidden;
         }
 
         .sparkle span {
@@ -169,6 +189,22 @@
             20% { opacity: 0.7; }
             80% { opacity: 0.7; }
             100% { transform: scale(1); opacity: 0; }
+        }
+
+        @media (max-width: 480px) {
+            .container {
+                padding: 15px;
+                margin: 10px;
+            }
+            
+            .btn {
+                width: 90%;
+                white-space: normal;
+            }
+            
+            .floating-heart {
+                font-size: 1rem;
+            }
         }
     </style>
 </head>
@@ -200,7 +236,10 @@
             const heartsContainer = document.getElementById('floating-hearts');
             const heartSymbols = ['❤️', '💕', '💖', '💗', '💓'];
             
-            for (let i = 0; i < 40; i++) {
+            // Adjust number of hearts based on screen size
+            const heartCount = window.innerWidth < 480 ? 20 : 40;
+            
+            for (let i = 0; i < heartCount; i++) {
                 const heart = document.createElement('div');
                 heart.classList.add('floating-heart');
                 heart.innerHTML = heartSymbols[Math.floor(Math.random() * heartSymbols.length)];
@@ -208,7 +247,8 @@
                 heart.style.animationDuration = 5 + Math.random() * 10 + 's';
                 heart.style.animationDelay = Math.random() * 5 + 's';
                 heart.style.opacity = Math.random() * 0.7;
-                heart.style.fontSize = Math.random() * 2 + 1 + 'rem';
+                const fontSize = Math.max(0.8, Math.random() * 2) + (window.innerWidth < 480 ? 0 : 1) + 'rem';
+                heart.style.fontSize = fontSize;
                 heartsContainer.appendChild(heart);
             }
         }
@@ -217,7 +257,10 @@
         function createSparkles() {
             const sparkleContainer = document.getElementById('sparkle');
             
-            for (let i = 0; i < 30; i++) {
+            // Adjust number of sparkles based on screen size
+            const sparkleCount = window.innerWidth < 480 ? 15 : 30;
+            
+            for (let i = 0; i < sparkleCount; i++) {
                 const sparkle = document.createElement('span');
                 sparkle.style.width = Math.random() * 10 + 5 + 'px';
                 sparkle.style.height = sparkle.style.width;
@@ -233,8 +276,10 @@
         function setupButton() {
             const loveBtn = document.getElementById('love-btn');
             loveBtn.addEventListener('click', function() {
-                // Create heart explosion
-                for (let i = 0; i < 20; i++) {
+                // Create heart explosion - fewer hearts on mobile
+                const explosionCount = window.innerWidth < 480 ? 10 : 20;
+                
+                for (let i = 0; i < explosionCount; i++) {
                     setTimeout(() => {
                         const explosionHeart = document.createElement('div');
                         explosionHeart.classList.add('floating-heart');
@@ -258,11 +303,25 @@
             });
         }
 
+        // Function to handle window resizing
+        function handleResize() {
+            // Clear existing hearts and sparkles
+            document.getElementById('floating-hearts').innerHTML = '';
+            document.getElementById('sparkle').innerHTML = '';
+            
+            // Recreate with appropriate size
+            createFloatingHearts();
+            createSparkles();
+        }
+
         // Initialize the page
         function init() {
             createFloatingHearts();
             createSparkles();
             setupButton();
+            
+            // Add resize listener
+            window.addEventListener('resize', handleResize);
         }
 
         // Start when page loads
